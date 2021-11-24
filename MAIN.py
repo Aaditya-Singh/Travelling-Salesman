@@ -13,7 +13,7 @@ def SaveWeightAndPath(args, MinWeight, BestPath):
         MinWeight: Int -->  Minimum weight of the path found by the algorithm
         BestWeight: List --> Order in which the nodes should be traversed
     Output:
-        Saved file with the approporiate name
+        Saved file with the appropriate name
     '''
     OutPath = args.inst + "_" + args.alg + "_" + args.time + ".sol"
     with open(OutPath, 'w') as OutFile:
@@ -30,7 +30,7 @@ def SaveTraces(args, BestTraces):
     Inputs:
         BestTraces: List --> Traces containing [time, quality] found by the algorithm
     Output:
-        Saved file with the approporiate name
+        Saved file with the appropriate name
     '''
     OutPath = args.inst + "_" + args.alg + "_" + args.time + ".trace"
     with open(OutPath, 'w') as OutFile:
