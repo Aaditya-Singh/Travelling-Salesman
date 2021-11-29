@@ -1,13 +1,11 @@
-import numpy as np  # Major use: Arrays and Matrices
-import random as ra  # Major use: Random number generation
-import random
+import numpy as np  # Major use: Arrays and Matrices\
 import math
 import time
 
 
 class AntColonyOptimization:
 
-    def __init__(self, Filepath, threshold_time, inc_ant_count_factor=0.5, rho=0.2, k=1, MAX_TIME=2000):
+    def __init__(self, Filepath, threshold_time, inc_ant_count_factor=0.5, rho=0.2, k=1, MAX_TIME=2000, seed = 0):
 
         self.Filepath = Filepath
         self.FileDict = {}
@@ -26,6 +24,7 @@ class AntColonyOptimization:
         self.MAX_TIME = MAX_TIME
         self.visited_cities = {}
         self.solution = {}
+        self.rng = np.random.default_rng(seed)
 
         # calling functions to populate necessary members
         self.TspToDict()
@@ -121,7 +120,7 @@ class AntColonyOptimization:
     def city_selection(self, specific_ant, current_city):
         """ Returns the next city number based on maximum probability """
 
-        random_value = random.uniform(0, 1)
+        random_value = self.rng.uniform(0, 1)
         sum_prob = 0
         for p in range(len(self.prob_array[specific_ant][current_city - 1])):
             sum_prob += self.prob_array[specific_ant][current_city - 1][p]
@@ -172,7 +171,6 @@ class AntColonyOptimization:
         return self.tau_array
 
     def RUN_ACO(self):
-        print('aba')
         start_time = time.time()
         print('Program Started at: ', start_time)
         count_stuck_solution = 0
@@ -180,7 +178,6 @@ class AntColonyOptimization:
         start_t = 0
         # prev_best_solution = math.inf
         for t in range(self.MAX_TIME):
-            print('inside t', t)
 
             if t > 0:
                 prev_best_solution = self.min_val
@@ -188,9 +185,9 @@ class AntColonyOptimization:
             # Zeroth time step
             Cities = np.linspace(1, self.Dimension, self.Dimension, dtype=int)
             for a in range(self.ants):
-                start_city = ra.choice(Cities)  # Placing the ant on a random city
+                start_city = self.rng.choice(Cities)  # Placing the ant on a random city
                 self.visited_cities[a] = [start_city]  # Adding the city to the visited cities
-            print(self.visited_cities)
+            # print(self.visited_cities)
 
             # Time step 1 to MAX_TIME
             while len(self.visited_cities[self.ants - 1]) < self.Dimension:
@@ -212,7 +209,7 @@ class AntColonyOptimization:
                         next_city_index = next_city - 1
 
                         self.delta_tau_array[a][current_city_index][next_city_index] = self.q / self.total_cost(a)
-                print(self.visited_cities)
+                # print(self.visited_cities)
                 self.tau_array = self.pheromone_update()
 
             self.cost_matrix = np.zeros(self.ants)
