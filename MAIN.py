@@ -5,6 +5,7 @@ import math
 import pandas
 import argparse
 from PROGRAM import BranchAndBound
+from APPROXIMATION import NearestNeighbour
 
 
 def SaveWeightAndPath(args, MinWeight, BestPath):
@@ -66,5 +67,16 @@ if __name__ == "__main__":
         SaveWeightAndPath(args, BnB.MinWeights[-1], BnB.BestPaths[-1])         
         # Save best traces
         SaveTraces(args, BnB.BestTraces)
+
+    if args.alg == 'Approx':
+        Approx = NearestNeighbour(Filepath, Cutoff)
+        Approx.find_approximate_solution()
+        print(Approx.best_sol)
+        print(Approx.best_path)
+        print(Approx.trace)
+        # Save min weight and best path
+        SaveWeightAndPath(args, Approx.best_sol, Approx.best_path)
+        # Save best traces
+        SaveTraces(args, Approx.trace)
 
 
