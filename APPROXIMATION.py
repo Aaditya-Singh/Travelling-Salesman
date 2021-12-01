@@ -54,11 +54,11 @@ class NearestNeighbour:
         for i in range(self.n_locations):
             self.helper_find_approximate_solution(i + 1)
             if self.quality < self.best_sol:
-                self.best_path = self.path
-                self.best_sol = self.quality
+                self.best_path = [k-1 for k in self.path]
+                self.best_sol = int(self.quality)
 
                 end_time = time.time()
-                self.trace.append([end_time - start_time, self.quality])
+                self.trace.append([round(end_time - start_time, 2), int(self.quality)])
                 if end_time - start_time > self.cutoff:
                     break
 
