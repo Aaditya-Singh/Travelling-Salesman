@@ -236,9 +236,9 @@ class AntColonyOptimization:
                     # starting_t = t
 
             self.trace_file.append([self.min_val, round(time_elapsed, 2)])
-            print('Best Solution found so far: ')
-            print(self.min_val)
-            print(self.solution[self.min_val])
+            # print('Best Solution found so far: ')
+            # print(self.min_val)
+            # print(self.solution[self.min_val])
 
             if t > 0:
                 if prev_best_solution == self.min_val:

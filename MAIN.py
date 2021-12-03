@@ -67,4 +67,24 @@ if __name__ == "__main__":
         # Save best traces
         SaveTraces(args, BnB.BestTraces)
 
+    if args.alg == 'LS1':
+        ACO = AntColonyOptimization(Filepath, Cutoff, seed = args.seed)
+        ACO.RUN_ACO()
+        print(ACO.min_val)
+        print(ACO.solution[ACO.min_val])
+        print(ACO.trace_file)
+        # Save min weight and best path
+        SaveWeightAndPath(args, ACO.min_val, ACO.solution[ACO.min_val])
+        # Save best traces
+        SaveTraces(args, ACO.trace_file)
 
+    if args.alg == 'LS2':
+        SA = SimulatedAnnealing(Filepath, Cutoff, seed = args.seed)
+        SA.run_simulation()
+        print(SA.best_distance)
+        print(SA.best_solution)
+        print(SA.trace)
+        # Save min weight and best path
+        SaveWeightAndPath(args, SA.best_distance, SA.best_solution)
+        # Save best traces
+        SaveTraces(args, SA.trace)
