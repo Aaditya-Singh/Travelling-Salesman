@@ -5,7 +5,8 @@ import math
 import pandas
 import argparse
 from PROGRAM import BranchAndBound
-
+from ACO_Class import AntColonyOptimization
+from SA import SimulatedAnnealing
 
 def SaveWeightAndPath(args, MinWeight, BestPath):
     '''
@@ -68,7 +69,7 @@ if __name__ == "__main__":
         SaveTraces(args, BnB.BestTraces)
 
     if args.alg == 'LS1':
-        ACO = AntColonyOptimization(Filepath, Cutoff, seed = args.seed)
+        ACO = AntColonyOptimization(Filepath, Cutoff, seed = int(args.seed))
         ACO.RUN_ACO()
         print(ACO.min_val)
         print(ACO.solution[ACO.min_val])
@@ -79,7 +80,7 @@ if __name__ == "__main__":
         SaveTraces(args, ACO.trace_file)
 
     if args.alg == 'LS2':
-        SA = SimulatedAnnealing(Filepath, Cutoff, seed = args.seed)
+        SA = SimulatedAnnealing(Filepath, Cutoff, seed = int(args.seed))
         SA.run_simulation()
         print(SA.best_distance)
         print(SA.best_solution)

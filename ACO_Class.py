@@ -172,7 +172,7 @@ class AntColonyOptimization:
 
     def RUN_ACO(self):
         start_time = time.time()
-        print('Program Started at: ', start_time)
+        # print('Program Started at: ', start_time)
         count_stuck_solution = 0
         max_solution_count = 3
         start_t = 0
@@ -228,7 +228,7 @@ class AntColonyOptimization:
 
             iter_time = time.time()
             time_elapsed = iter_time - start_time
-            print('Time Elapsed: ', time_elapsed, 'Ants: ', self.ants, 'Iteration: ', t)
+            # print('Time Elapsed: ', time_elapsed)
 
             for val, cities in self.solution.items():
                 if val < self.min_val:
