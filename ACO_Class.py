@@ -223,7 +223,9 @@ class AntColonyOptimization:
                 if self.cost_matrix[a] < min_cost:
                     min_cost = self.cost_matrix[a]
                     solution_ant = a
-            self.solution[min_cost] = self.visited_cities[solution_ant]
+            self.visited_cities[solution_ant] = np.array(self.visited_cities[solution_ant])-1
+            self.solution[min_cost] = list(self.visited_cities[solution_ant])
+            # print(self.solution[min_cost])
             # solution[min(cost_matrix)] = visited_cities[int(np.where(cost_matrix == min(cost_matrix)))]
 
             iter_time = time.time()
