@@ -31,7 +31,11 @@ class AntColonyOptimization:
         self.FindEdgeWeights()
         self.set_alpha_beta()
         self.q = np.mean(self.EdgeWeights)
-        self.ants = self.Dimension
+        # self.ants = self.Dimension
+        if self.Dimension > 50:
+            self.ants = 30
+        else:
+            self.ants = self.Dimension
         self.cost_matrix = np.zeros(self.ants)
         self.tau = 1 / (self.ants * self.Dimension)
         self.tau_array = self.generate_tau()
@@ -111,6 +115,7 @@ class AntColonyOptimization:
             for c in range(no_city):
                 if (r != c) and (c + 1 not in self.visited_cities[specific_ant]):
                     prob_array[r][c] = (self.tau_array[r][c] ** self.alpha) / (self.EdgeWeights[r][c] ** self.beta)
+        # print(prob_array)
         for r in range(no_city):
             if np.sum(prob_array[r]) != 0:
                 prob_array[r] /= np.sum(prob_array[r])
@@ -122,7 +127,7 @@ class AntColonyOptimization:
 
         random_value = self.rng.uniform(0, 1)
         sum_prob = 0
-        for p in range(len(self.prob_array[specific_ant][current_city - 1])):
+        for p in range(self.Dimension):
             sum_prob += self.prob_array[specific_ant][current_city - 1][p]
             if random_value < sum_prob:
                 next_city = p + 1
@@ -179,6 +184,7 @@ class AntColonyOptimization:
         # prev_best_solution = math.inf
         for t in range(self.MAX_TIME):
 
+            iter_time = time.time()
             if t > 0:
                 prev_best_solution = self.min_val
 
@@ -228,16 +234,16 @@ class AntColonyOptimization:
             # print(self.solution[min_cost])
             # solution[min(cost_matrix)] = visited_cities[int(np.where(cost_matrix == min(cost_matrix)))]
 
-            iter_time = time.time()
-            time_elapsed = iter_time - start_time
-            # print('Time Elapsed: ', time_elapsed)
+            # iter_time = time.time()
+            time_elapsed = time.time() - start_time
+            # print('Time Elapsed: ', time_elapsed, 'ants: ', self.ants)
 
             for val, cities in self.solution.items():
                 if val < self.min_val:
                     self.min_val = val
                     # starting_t = t
 
-            self.trace_file.append([round(time_elapsed, 2), self.min_val])
+            self.trace_file.append([round(time_elapsed, 2), int(self.min_val)])
             # print('Best Solution found so far: ')
             # print(self.min_val)
             # print(self.solution[self.min_val])
@@ -245,7 +251,7 @@ class AntColonyOptimization:
             if t > 0:
                 if prev_best_solution == self.min_val:
                     count_stuck_solution += 1
-                    if count_stuck_solution > max_solution_count:
+                    if (count_stuck_solution > max_solution_count) and (self.ants < self.Dimension*10):
                         self.ants += int(self.inc_ant_count_factor * self.ants)
                         # The array contains Pheromone values changes of arcs between the cities for each ant
                         self.delta_tau_array = np.append(self.delta_tau_array,
@@ -260,5 +266,7 @@ class AntColonyOptimization:
                         max_solution_count = t - start_t + 3
                         start_t = t
 
-            if iter_time - start_time > self.threshold_time:
+            # if iter_time - start_time > self.threshold_time:
+            #     break
+            if (self.threshold_time - (time.time()-start_time)) < (time.time()-iter_time):
                 break
