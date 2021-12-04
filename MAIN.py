@@ -6,7 +6,8 @@ import pandas
 import argparse
 from PROGRAM import BranchAndBound
 from APPROXIMATION import NearestNeighbour
-
+from ACO_Class import AntColonyOptimization
+from SA import SimulatedAnnealing
 
 def SaveWeightAndPath(args, MinWeight, BestPath):
     '''
@@ -14,7 +15,7 @@ def SaveWeightAndPath(args, MinWeight, BestPath):
         MinWeight: Int -->  Minimum weight of the path found by the algorithm
         BestWeight: List --> Order in which the nodes should be traversed
     Output:
-        Saved file with the approporiate name
+        Saved file with the appropriate name
     '''
     OutPath = args.inst + "_" + args.alg + "_" + args.time + ".sol"
     with open(OutPath, 'w') as OutFile:
@@ -31,7 +32,7 @@ def SaveTraces(args, BestTraces):
     Inputs:
         BestTraces: List --> Traces containing [time, quality] found by the algorithm
     Output:
-        Saved file with the approporiate name
+        Saved file with the appropriate name
     '''
     OutPath = args.inst + "_" + args.alg + "_" + args.time + ".trace"
     with open(OutPath, 'w') as OutFile:
@@ -79,4 +80,24 @@ if __name__ == "__main__":
         # Save best traces
         SaveTraces(args, Approx.trace)
 
+    if args.alg == 'LS1':
+        ACO = AntColonyOptimization(Filepath, Cutoff, seed = int(args.seed))
+        ACO.RUN_ACO()
+        print(ACO.min_val)
+        print(ACO.solution[ACO.min_val])
+        print(ACO.trace_file)
+        # Save min weight and best path
+        SaveWeightAndPath(args, ACO.min_val, ACO.solution[ACO.min_val])
+        # Save best traces
+        SaveTraces(args, ACO.trace_file)
 
+    if args.alg == 'LS2':
+        SA = SimulatedAnnealing(Filepath, Cutoff, seed = int(args.seed))
+        SA.run_simulation()
+        print(SA.best_distance)
+        print(SA.best_solution)
+        print(SA.trace)
+        # Save min weight and best path
+        SaveWeightAndPath(args, SA.best_distance, SA.best_solution)
+        # Save best traces
+        SaveTraces(args, SA.trace)
