@@ -50,7 +50,7 @@ if __name__ == "__main__":
     parser.add_argument('-inst', required=True, help='filename')
     parser.add_argument('-alg', required=True, help='BnB | Approx | LS1 | LS2')
     parser.add_argument('-time', required=True, help='cutoff_in_seconds')
-    parser.add_argument('-seed', default=0, help='random_seed')
+    parser.add_argument('-seed', default="0", help='random_seed')
     args = parser.parse_args()
 
     Filepath = "./DATA/" + args.inst + ".tsp"
