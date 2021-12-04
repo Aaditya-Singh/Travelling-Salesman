@@ -1,7 +1,6 @@
 import numpy as np
 import math, time
 import os
-import matplotlib.pyplot as plt
 
 class SimulatedAnnealing():
     
