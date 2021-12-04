@@ -2,7 +2,6 @@
 import os
 import time
 import math
-import pandas
 import argparse
 from PROGRAM import BranchAndBound
 from APPROXIMATION import NearestNeighbour

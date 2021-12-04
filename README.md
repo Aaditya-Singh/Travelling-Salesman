@@ -32,7 +32,6 @@ python tsp_main.py -inst <file_path>
 ## Dependencies
 - Python  3.7.11
 - NumPy 1.17.4
-- Pandas  1.3.4  
 
 
 ### Branch and Bound
