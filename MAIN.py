@@ -9,7 +9,7 @@ from APPROXIMATION import NearestNeighbour
 from ACO_Class import AntColonyOptimization
 from SA import SimulatedAnnealing
 
-def SaveWeightAndPath(args, MinWeight, BestPath):
+def SaveWeightAndPath(args, MinWeight, BestPath, deterministic=True):
     '''
     Inputs: 
         MinWeight: Int -->  Minimum weight of the path found by the algorithm
@@ -17,7 +17,8 @@ def SaveWeightAndPath(args, MinWeight, BestPath):
     Output:
         Saved file with the appropriate name
     '''
-    OutPath = args.inst + "_" + args.alg + "_" + args.time + ".sol"
+    if deterministic: OutPath = args.inst + "_" + args.alg + "_" + args.time + ".sol"
+    else: OutPath = args.inst + "_" + args.alg + "_" + args.time + "_" + args.seed + ".sol"
     with open(OutPath, 'w') as OutFile:
         OutFile.write(str(MinWeight) + '\n')
         for i in range(len(BestPath)):
@@ -27,18 +28,20 @@ def SaveWeightAndPath(args, MinWeight, BestPath):
     return
 
 
-def SaveTraces(args, BestTraces):
+def SaveTraces(args, BestTraces, deterministic=True):
     '''
     Inputs:
         BestTraces: List --> Traces containing [time, quality] found by the algorithm
     Output:
         Saved file with the appropriate name
     '''
-    OutPath = args.inst + "_" + args.alg + "_" + args.time + ".trace"
+    if deterministic: OutPath = args.inst + "_" + args.alg + "_" + args.time + ".trace"
+    else: OutPath = args.inst + "_" + args.alg + "_" + args.time + "_" + args.seed + ".trace"
     with open(OutPath, 'w') as OutFile:
         for i in range(len(BestTraces)):
             Time = BestTraces[i][0]; OutFile.write(str(Time) + ',')
             Quality = BestTraces[i][1]; OutFile.write(str(Quality) + '\n')
+            # Error = BestTraces[i][2]; OutFile.write(str(Error) + '\n')
     return
 
 
@@ -87,9 +90,9 @@ if __name__ == "__main__":
         print(ACO.solution[ACO.min_val])
         print(ACO.trace_file)
         # Save min weight and best path
-        SaveWeightAndPath(args, ACO.min_val, ACO.solution[ACO.min_val])
+        SaveWeightAndPath(args, ACO.min_val, ACO.solution[ACO.min_val], deterministic=False)
         # Save best traces
-        SaveTraces(args, ACO.trace_file)
+        SaveTraces(args, ACO.trace_file, deterministic=False)
 
     if args.alg == 'LS2':
         SA = SimulatedAnnealing(Filepath, Cutoff, seed = int(args.seed))
@@ -98,6 +101,6 @@ if __name__ == "__main__":
         print(SA.best_solution)
         print(SA.trace)
         # Save min weight and best path
-        SaveWeightAndPath(args, SA.best_distance, SA.best_solution)
+        SaveWeightAndPath(args, SA.best_distance, SA.best_solution, deterministic=False)
         # Save best traces
-        SaveTraces(args, SA.trace)
+        SaveTraces(args, SA.trace, deterministic=False)

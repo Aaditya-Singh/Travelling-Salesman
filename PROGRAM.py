@@ -92,7 +92,8 @@ class BranchAndBound():
 			CurrWeight += self.EdgeWeights[X][Y]
 			if not self.MinWeights or CurrWeight < self.MinWeights[-1]: 
 				self.MinWeights.append(CurrWeight); self.BestPaths.append(PartialPath.copy())
-				self.BestTraces.append([round(time.time() - self.StartTime, 2), int(CurrWeight)])
+				self.BestTraces.append([round(time.time() - self.StartTime, 2), int(CurrWeight), \
+					round((CurrWeight - OptWeight)/OptWeight, 3)])
 				print(self.MinWeights[-1])
 				print(self.BestPaths[-1])
 				print(self.BestTraces[-1])
