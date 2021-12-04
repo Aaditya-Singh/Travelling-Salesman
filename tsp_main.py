@@ -53,17 +53,17 @@ if __name__ == "__main__":
     parser.add_argument('-seed', default="0", help='random_seed')
     args = parser.parse_args()
 
-    Filepath = "./DATA/" + args.inst + ".tsp"
+    Filepath = args.inst
     Cutoff = int(args.time)
-    Dataframe = pandas.read_csv("./DATA/solutions.csv", sep=",")
-    print(Dataframe.head())
-    index = Dataframe.index[Dataframe['Instance'] == args.inst][0]
-    OptWeight = Dataframe.iloc[index, 1]
+    # Dataframe = pandas.read_csv("./DATA/solutions.csv", sep=",")
+    # print(Dataframe.head())
+    # index = Dataframe.index[Dataframe['Instance'] == args.inst][0]
+    # OptWeight = Dataframe.iloc[index, 1]
 
     ## Branch and bound algorithm
     if args.alg == 'BnB':
         BnB = BranchAndBound(Filepath, Cutoff)
-        BnB.Main(OptWeight)
+        BnB.Main(100)
         print(BnB.MinWeights[-1])
         print(BnB.BestPaths[-1])
         print(BnB.BestTraces[-1])

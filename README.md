@@ -18,7 +18,7 @@ Solve Travelling Salesman Problem with the following algorithms:
 
 ## Usage:
 ```
-python tsp_main.py -inst <filename>
+python tsp_main.py -inst <file_path>
                     -alg [BnB | Approx | LS1 | LS2]
                     -time <cutoff_in_seconds>
                     [-seed <random_seed>]
